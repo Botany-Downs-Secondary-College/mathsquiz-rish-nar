@@ -6,6 +6,8 @@ from tkinter import Tk
 class Math():
     def __init__(self, parent):
         
+        self.index = 0
+        self.score = 0
 
         self.Welcome = Frame(parent)
         self.Welcome.grid(row=0, column=0)
@@ -33,6 +35,9 @@ class Math():
         
         self.EnterAge = Entry(self.Welcome)
         self.EnterAge.grid(row = 2, column = 1)
+
+        
+    
         
         #Warning, Difficulty level label and radio buttons
         self.WarningLabel = Label(self.Welcome, text = '', anchor = W, fg = "red", width= 20, padx = 30, pady = 10)
@@ -59,7 +64,7 @@ class Math():
         
      
         self.Toquiz = Button(self.Welcome, text = "Next", 
-                             activebackground = "yellow",
+                             activebackground = "gray",
                              command = lambda:[self.UserDetails(), self.QuestionGen()])
         self.Toquiz.grid(row = 4, column = 0)
         
@@ -80,10 +85,13 @@ class Math():
   
         self.AnswerBox = Entry(self.Quiz)
         self.AnswerBox.grid(row = 1, column = 1)
+
+        self.ScoreLabel = Label(self.Quiz, text = "")
+        self.ScoreLabel.grid(row = 5, column =1)
         
 
         self.ButtonCheck = Button(self.Quiz, text = "Check question",
-                            activebackground = "yellow",
+                            activebackground = "gray",
                             command = lambda:[self.Check()])
         self.ButtonCheck.grid(row = 2, column = 0)
         
@@ -121,6 +129,7 @@ class Math():
                 
     def QuestionGen(self):
 
+        self.index += 1
 
         num_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         
@@ -131,7 +140,11 @@ class Math():
         self.add = self.number_1, "+", self.number_2, "="
         
         self.Question.configure(text = self.add)
+        self.QuestionsLabel.configure(text = "Quiz Questions" + str(self.index) + "/5")
         
+        
+        
+
     def Check(self):
         try:
             self.answer = self.AnswerBox.get()
@@ -142,6 +155,10 @@ class Math():
             
             if self.answer_mod == self.total:
                 self.feedback.configure(text = "Correct!")
+                self.score += 1
+                score_text = "Score" + str(self.score)
+                self.ScoreLabel.configure(text = score_text)
+
                 self.QuestionGen()
     
             else:
